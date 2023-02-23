@@ -18,12 +18,13 @@ return new class extends Migration
             $table->string('code', 20);
             $table->string('name', 150);
             $table->foreignId('department_id')->constrained()->cascadeOnDelete();
-            $table->string('title', 200);
-            $table->date('date_of_birth');
+            $table->string('title', 200)->nullable();
+            $table->date('date_of_birth')->nullable();
             $table->tinyInteger('gender')->default(0);
             $table->string('cmnd', 15)->nullable();
-            $table->date('license_date');
-            $table->foreignId('city_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->date('license_date')->nullable();
+            $table->string('license_place', 225)->nullable();
+            // $table->foreignId('city_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('address', 225)->nullable();
             $table->string('phone', 15)->nullable();
             $table->string('landline_phone', 15)->nullable();

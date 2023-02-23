@@ -29,7 +29,7 @@ class EmployeeSeeder extends Seeder
                     'gender' => rand(0, 2),
                     'cmnd' => $faker->isbn10(),
                     'license_date' => $faker->date($format = 'Y-m-d', $max = 'now'),
-                    'city_id' => rand(1, 63),
+                    'license_place' => "HD",
                     'address' => '',
                     'phone' => $faker->e164PhoneNumber(),
                     'landline_phone' => $faker->e164PhoneNumber(),

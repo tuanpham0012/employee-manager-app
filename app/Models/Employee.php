@@ -22,7 +22,7 @@ class Employee extends Model
         'gender',
         'cmnd',
         'license_date',
-        'city_id',
+        'license_place',
         'address',
         'phone',
         'landline_phone',

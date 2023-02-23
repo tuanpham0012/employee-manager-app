@@ -105,17 +105,17 @@ class StoreEmployyeRequest extends FormRequest
                     }
                 }
             ],
-            'city_id' => [
-                function($attribute, $value, $fail){
-                    if($value === null){
-                        return;
-                    }
-                    $check = City::find($value);
-                    if(!$check){
-                        return $fail(trans('Nơi cấp không tồn tại.'));
-                    }
-                }
-            ],
+            // 'city_id' => [
+            //     function($attribute, $value, $fail){
+            //         if($value === null){
+            //             return;
+            //         }
+            //         $check = City::find($value);
+            //         if(!$check){
+            //             return $fail(trans('Nơi cấp không tồn tại.'));
+            //         }
+            //     }
+            // ],
             'address',
             'phone' => [
                 function ($attribute, $value, $fail) {

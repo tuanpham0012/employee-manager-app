@@ -21,10 +21,10 @@ class EmployeeResource extends JsonResource
             'department_id' => $this->department_id,
             'title' => $this->title,
             'date_of_birth' => $this->date_of_birth,
-            'gender' => $this->gender,
+            'gender' => $this->getGender($this->gender),
             'cmnd' => $this->cmnd,
             'license_date' => $this->license_date,
-            'city_id' => $this->city_id,
+            'liscense_place' => $this->liscense_place,
             'address' => $this->address,
             'phone' => $this->phone,
             'landline_phone' => $this->landline_phone,
@@ -34,10 +34,29 @@ class EmployeeResource extends JsonResource
             'bank_branch' => $this->bank_branch,
             'is_customer' => $this->is_customer,
             'is_supplier' => $this->is_supplier,
-            'city' => new CityResource($this->city),
+            // 'city' => new CityResource($this->city),
             'bank' => new BankResource($this->bank),
             'department' => new DepartmentResource($this->department)
         ];
         // return parent::toArray($request);
+    }
+
+    public function getGender($var)
+    {
+        switch ($var) {
+            case '0':
+                return 'Nam';
+                break;
+            case '1':
+                return 'Nữ';
+                break;
+            case '2':
+                return 'Khác';
+                break;
+
+            default:
+                return 'Khác';
+                break;
+        }
     }
 }
