@@ -22,6 +22,7 @@ class EmployeeResource extends JsonResource
             'title' => $this->title,
             'date_of_birth' => $this->date_of_birth,
             'gender' => $this->getGender($this->gender),
+            'gender_id' => $this->gender,
             'cmnd' => $this->cmnd,
             'license_date' => $this->license_date,
             'license_place' => $this->license_place,

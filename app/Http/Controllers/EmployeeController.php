@@ -25,7 +25,7 @@ class EmployeeController extends Controller
         $data = $request->all();
         $data['search'] = isset($data['search']) ? $data['search'] : '';
         $per_page = isset($data['per_page']) ? $data['per_page'] : 30;
-        $entries = $this->model->with(['department', 'bank', 'city'])
+        $entries = $this->model->with(['department', 'bank'])
                 ->where('code', 'like', '%'. $data['search'] . '%')
                 ->orWhere('name', 'like', '%'. $data['search'] . '%')
                 ->orWhere('phone', 'like', '%'. $data['search'] . '%')
@@ -51,8 +51,11 @@ class EmployeeController extends Controller
     {
         $data = $request->all();
         try {
+            $data['gender'] = $data['gender_id'];
+            $data['is_customer'] = isset($data['is_customer']) ? $data['is_customer'] : 0;
+            $data['is_supplier'] = isset($data['is_supplier']) ? $data['is_supplier'] : 0;
             $entry = $this->model->create($data);
-            $data = new EmployeeResource($entry->load(['department', 'bank', 'city']));
+            $data = new EmployeeResource($entry->load(['department', 'bank']));
             return response()->json([
                 'code' => 200,
                 'status' => 'success',
@@ -75,7 +78,7 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        $entry = $this->model->with(['department', 'bank', 'city'])->find($id);
+        $entry = $this->model->with(['department', 'bank'])->find($id);
 
         if($entry){
             $data = new EmployeeResource($entry);
@@ -113,7 +116,7 @@ class EmployeeController extends Controller
      */
     public function update(UpdateEmployyeRequest $request, $id)
     {
-        $entry = $this->model->with(['department', 'bank', 'city'])->find($id);
+        $entry = $this->model->with(['department', 'bank'])->find($id);
 
         if(!$entry){
             return response()->json([
@@ -124,9 +127,12 @@ class EmployeeController extends Controller
         }
         $data = $request->all();
         try {
+            $data['gender'] = $data['gender_id'];
+            $data['is_customer'] = isset($data['is_customer']) ? $data['is_customer'] : 0;
+            $data['is_supplier'] = isset($data['is_supplier']) ? $data['is_supplier'] : 0;
             $entry->update($data);
             $entry = $entry->fresh();
-            $data = new EmployeeResource($entry->load(['department', 'bank', 'city']));
+            $data = new EmployeeResource($entry->load(['department', 'bank']));
             return response()->json([
                 'code' => 200,
                 'status' => 'success',
@@ -147,9 +153,40 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        $entry = $this->model->with(['department', 'bank', 'city'])->find($id);
+        $data = $request->all();
+        if($id == 0){
+            if(isset($data['ids'])){
+                $entries = $this->model->find($data['ids']);
+                if($entries->count() > 0){
+                    try {
+                        foreach($entries as $i){
+                            $i->delete();
+                        }
+
+                    return response()->json([
+                        'code' => 200,
+                        'status' => 'success',
+                        'message' => "Xóa bản ghi thành công.",
+                    ], 200);
+                    } catch (\Throwable $th) {
+                        return response()->json([
+                            'code' => 422,
+                            'status' => 'error',
+                            'message' => $th->getMessage(),
+                        ], 422);
+                    }
+                }
+
+            }
+            return response()->json([
+                'code' => 422,
+                'status' => 'error',
+                'message' => 'Có lỗi xảy ra! id không hợp lệ.',
+            ], 422);
+        }
+        $entry = $this->model->find($id);
 
         if(!$entry){
             return response()->json([
@@ -173,7 +210,7 @@ class EmployeeController extends Controller
                 'message' => $th->getMessage(),
             ], 422);
         }
-        
+
     }
 
     public function getCode()

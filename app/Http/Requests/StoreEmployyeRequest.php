@@ -71,7 +71,7 @@ class StoreEmployyeRequest extends FormRequest
                     }
                 }
             ],
-            'gender' => [
+            'gender_id' => [
                 function($attribute, $value, $fail){
                     if($value === null){
                         return;

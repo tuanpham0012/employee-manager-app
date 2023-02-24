@@ -45,16 +45,6 @@ class Employee extends Model
     }
 
     /**
-     * Get the city that owns the Employee
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function city()
-    {
-        return $this->belongsTo(City::class);
-    }
-
-    /**
      * Get the bank that owns the Employee
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
